@@ -54,14 +54,14 @@ function nazwaPokoju(numer) {
     }
   }
 }
-function pomoc() {
-  console.log(
-    'Dostepne: start(), pomoc(), status(), mapa(), rozejrzyj(), idz("prawo"), idz("lewo"), akcja("karta"), akcja("bezpiecznik"), akcja("napraw"), akcja("wyjdz")',
-  );
-  console.log(
-    "Energie tracisz tylko i wyłacznie wtedy kiedy zrobisz ruch albo wykonasz akcje, jeżeli ruch bedzię prowadził do nikąd, nie tracisz energi.",
-  );
-  // TODO A5: dopisz pozostale kierunki i akcje oraz zasade kosztu.
+function pomoc(stan) {
+
+  return {
+    stan,
+    komunikat: ['Dostepne: start(), pomoc(), status(), mapa(), rozejrzyj(), idz("prawo"), idz("lewo"), akcja("karta"), akcja("bezpiecznik"), akcja("napraw"), akcja("wyjdz")',
+      , "Energie tracisz tylko i wyłacznie wtedy kiedy zrobisz ruch albo wykonasz akcje, jeżeli ruch bedzię prowadził do nikąd, nie tracisz energi.",
+    ]
+  }
 }
 function status() {
   // TODO A3: wypisz pokoj, energie, przedmioty, zasilanie i stan gry.
@@ -72,9 +72,9 @@ function status() {
   console.log("Zasilanie: " + (zasilanie ? "tak" : "nie"));
   console.log(
     "Stan gry: " +
-      (koniec
-        ? "koniec, " + (wygrana ? "wygrałeś!" : "przegrałeś")
-        : "w trakcie"),
+    (koniec
+      ? "koniec, " + (wygrana ? "wygrałeś!" : "przegrałeś")
+      : "w trakcie"),
   );
 }
 function mapa() {
@@ -87,7 +87,7 @@ function mapa() {
     }
   }
 }
-function rozejrzyj() {
+function rozejrzyj(stan) {
   // TODO A4: switch(pokoj); opis zgodny ze stanem przedmiotow.
   switch (pokoj) {
     case 1: {
@@ -154,9 +154,9 @@ function idz(kierunek) {
 // SEKCJA C — PRZEDMIOTY I WYGRANA
 function akcja(co) {
   // TODO C1: zablokuj akcje po koncu gry.
-  if(koniec) return;
+  if (koniec) return;
 
-  switch(co){
+  switch (co) {
     case "karta":
       if (pokoj !== 1 || karta) {
         console.log("Tutaj nie ma karty do zabrania.");
@@ -164,31 +164,31 @@ function akcja(co) {
       }
       karta = true;
       console.log("Zabierasz karte.");
-      break;    
+      break;
     case "bezpiecznik":
-      if(pokoj !== 2 || bezpiecznik || zasilanie) {
+      if (pokoj !== 2 || bezpiecznik || zasilanie) {
         console.log("Tutaj nie ma bezpiecznika do zabrania.");
         return;
       }
-      bezpiecznik=true;
+      bezpiecznik = true;
       console.log('Zbierasz bezpiecznik');
       break;
     case "napraw":
-      if(pokoj !== 3 || zasilanie || !bezpiecznik) {
+      if (pokoj !== 3 || zasilanie || !bezpiecznik) {
         console.log("Nie można wykonać tego działania");
         return;
       }
-      bezpiecznik=false;
-      zasilanie=true;
+      bezpiecznik = false;
+      zasilanie = true;
       console.log('Udało ci się naprawić zasilanie');
       break;
     case "wyjdz":
-      if(pokoj !== 4 || !zasilanie || !karta) {
+      if (pokoj !== 4 || !zasilanie || !karta) {
         console.log('Nie można jeszcze wyjść');
         return;
       }
-      koniec=true
-      wygrana=true;
+      koniec = true
+      wygrana = true;
       break
     default:
       console.log("Nieznana akcja");
